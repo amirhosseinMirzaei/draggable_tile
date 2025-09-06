@@ -29,6 +29,8 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   freezed_annotation: ^2.4.1
+  flutter_bloc: ^8.1.3
+
 
   flutter:
     sdk: flutter

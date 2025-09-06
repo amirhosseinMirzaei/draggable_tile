@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'models/tile_model.dart';
+
+import '../../models/tile_model.dart';
+
 
 class DraggableTile extends StatefulWidget {
   final TileModel tile;
   final Function(TileModel) onUpdate;
+  final Function(TileModel) onBringToFront;
 
   const DraggableTile({
     super.key,
     required this.tile,
     required this.onUpdate,
+    required this.onBringToFront,
   });
 
   @override
@@ -28,9 +32,7 @@ class _DraggableTileState extends State<DraggableTile> {
   }
 
   void _updateTile() {
-    widget.onUpdate(
-      widget.tile.copyWith(x: x, y: y, width: width, height: height),
-    );
+    widget.onUpdate(widget.tile.copyWith(x: x, y: y, width: width, height: height));
   }
 
   @override
@@ -39,6 +41,9 @@ class _DraggableTileState extends State<DraggableTile> {
       left: x,
       top: y,
       child: GestureDetector(
+        onPanStart: (_) {
+          widget.onBringToFront(widget.tile);
+        },
         onPanUpdate: (details) {
           setState(() {
             x += details.delta.dx;
@@ -56,7 +61,6 @@ class _DraggableTileState extends State<DraggableTile> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-
             Positioned(
               right: 0,
               bottom: 0,
