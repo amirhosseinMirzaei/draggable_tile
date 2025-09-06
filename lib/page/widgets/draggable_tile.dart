@@ -16,12 +16,10 @@ class DraggableTile extends StatelessWidget {
       top: tile.y,
       child: RepaintBoundary(
         child: GestureDetector(
-          // انتخاب / deselect
           onTap: () {
             context.read<TileBloc>().add(TileEvent.toggleTileSelection(tile.id));
           },
 
-          // شروع Drag
           onPanStart: (_) {
             final bloc = context.read<TileBloc>();
             final selectedTiles = bloc.state.tiles.where((t) => t.isSelected).toList();
@@ -35,42 +33,33 @@ class DraggableTile extends StatelessWidget {
             }
           },
 
-          // Drag کردن
           onPanUpdate: (details) {
             final bloc = context.read<TileBloc>();
             final selectedTiles = bloc.state.tiles.where((t) => t.isSelected).toList();
 
             if (tile.isSelected) {
               for (var t in selectedTiles) {
-                final updated = t.copyWith(
-                  x: t.x + details.delta.dx,
-                  y: t.y + details.delta.dy,
-                );
+                final updated = t.copyWith(x: t.x + details.delta.dx, y: t.y + details.delta.dy);
                 bloc.add(TileEvent.updateTile(updated));
               }
             } else {
-              final updated = tile.copyWith(
-                x: tile.x + details.delta.dx,
-                y: tile.y + details.delta.dy,
-              );
+              final updated = tile.copyWith(x: tile.x + details.delta.dx, y: tile.y + details.delta.dy);
               bloc.add(TileEvent.updateTile(updated));
             }
           },
 
           child: Stack(
             children: [
-              // بدنه اصلی تایل
               Container(
                 width: tile.width,
                 height: tile.height,
                 decoration: BoxDecoration(
-                  color: tile.isSelected ? Colors.orange : tile.color,
+                  color: tile.color,
                   borderRadius: BorderRadius.circular(12),
                   border: tile.isSelected ? Border.all(color: Colors.yellow, width: 3) : null,
                 ),
               ),
 
-              // دستگیره Resize
               Positioned(
                 right: 0,
                 bottom: 0,
@@ -83,14 +72,7 @@ class DraggableTile extends StatelessWidget {
                     );
                     bloc.add(TileEvent.updateTile(updated));
                   },
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
+                  child: Container(width: 20, height: 20, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
                 ),
               ),
             ],
