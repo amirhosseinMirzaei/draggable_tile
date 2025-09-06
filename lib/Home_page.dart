@@ -18,6 +18,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Stack(
+        children:
+            tiles.map((tile) {
+              return DraggableTile(
+                key: ValueKey(tile.id),
+                tile: tile,
+                onUpdate: (updatedTile) {
+                  setState(() {
+                    final index = tiles.indexWhere((t) => t.id == updatedTile.id);
+                    tiles[index] = updatedTile;
+                  });
+                },
+              );
+            }).toList(),
+      ),
+    );
   }
 }
