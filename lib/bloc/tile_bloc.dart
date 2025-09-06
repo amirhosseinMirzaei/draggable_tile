@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 
 class TileBloc extends Bloc<TileEvent, TileState> {
   TileBloc()
-    : super(
-        TileState(
-          tiles: [
-            TileModel(id: 1, x: 0, y: 0, width: 120, height: 120, color: Colors.purple),
-            TileModel(id: 2, x: 140, y: 0, width: 120, height: 120, color: Colors.greenAccent),
-            TileModel(id: 3, x: 0, y: 140, width: 120, height: 120, color: Colors.tealAccent),
-          ],
-        ),
-      ) {
+      : super(
+    TileState(
+      tiles: [
+        TileModel(id: 1, x: 0, y: 0, width: 120, height: 120, color: Colors.purple),
+        TileModel(id: 2, x: 140, y: 0, width: 120, height: 120, color: Colors.greenAccent),
+        TileModel(id: 3, x: 0, y: 140, width: 120, height: 120, color: Colors.tealAccent),
+      ],
+    ),
+  ) {
     on<UpdateTile>((event, emit) {
       final updatedTiles = state.tiles.map((t) => t.id == event.tile.id ? event.tile : t).toList();
       emit(state.copyWith(tiles: updatedTiles));
@@ -25,6 +25,16 @@ class TileBloc extends Bloc<TileEvent, TileState> {
       tiles.removeWhere((t) => t.id == event.tile.id);
       tiles.add(event.tile);
       emit(state.copyWith(tiles: tiles));
+    });
+
+    on<ToggleTileSelection>((event, emit) {
+      final updatedTiles = state.tiles.map((t) {
+        if (t.id == event.tileId) {
+          return t.copyWith(isSelected: !t.isSelected);
+        }
+        return t;
+      }).toList();
+      emit(state.copyWith(tiles: updatedTiles));
     });
   }
 }

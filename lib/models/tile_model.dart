@@ -12,5 +12,6 @@ class TileModel with _$TileModel {
     required double width,
     required double height,
     required Color color,
+    @Default(false) bool isSelected,
   }) = _TileModel;
 }

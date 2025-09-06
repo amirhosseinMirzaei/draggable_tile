@@ -23,6 +23,7 @@ mixin _$TileModel {
   double get width => throw _privateConstructorUsedError;
   double get height => throw _privateConstructorUsedError;
   Color get color => throw _privateConstructorUsedError;
+  bool get isSelected => throw _privateConstructorUsedError;
 
   /// Create a copy of TileModel
   /// with the given fields replaced by the non-null parameter values.
@@ -43,6 +44,7 @@ abstract class $TileModelCopyWith<$Res> {
     double width,
     double height,
     Color color,
+    bool isSelected,
   });
 }
 
@@ -67,6 +69,7 @@ class _$TileModelCopyWithImpl<$Res, $Val extends TileModel>
     Object? width = null,
     Object? height = null,
     Object? color = null,
+    Object? isSelected = null,
   }) {
     return _then(
       _value.copyWith(
@@ -100,6 +103,11 @@ class _$TileModelCopyWithImpl<$Res, $Val extends TileModel>
                     ? _value.color
                     : color // ignore: cast_nullable_to_non_nullable
                         as Color,
+            isSelected:
+                null == isSelected
+                    ? _value.isSelected
+                    : isSelected // ignore: cast_nullable_to_non_nullable
+                        as bool,
           )
           as $Val,
     );
@@ -122,6 +130,7 @@ abstract class _$$TileModelImplCopyWith<$Res>
     double width,
     double height,
     Color color,
+    bool isSelected,
   });
 }
 
@@ -145,6 +154,7 @@ class __$$TileModelImplCopyWithImpl<$Res>
     Object? width = null,
     Object? height = null,
     Object? color = null,
+    Object? isSelected = null,
   }) {
     return _then(
       _$TileModelImpl(
@@ -178,6 +188,11 @@ class __$$TileModelImplCopyWithImpl<$Res>
                 ? _value.color
                 : color // ignore: cast_nullable_to_non_nullable
                     as Color,
+        isSelected:
+            null == isSelected
+                ? _value.isSelected
+                : isSelected // ignore: cast_nullable_to_non_nullable
+                    as bool,
       ),
     );
   }
@@ -193,6 +208,7 @@ class _$TileModelImpl implements _TileModel {
     required this.width,
     required this.height,
     required this.color,
+    this.isSelected = false,
   });
 
   @override
@@ -207,10 +223,13 @@ class _$TileModelImpl implements _TileModel {
   final double height;
   @override
   final Color color;
+  @override
+  @JsonKey()
+  final bool isSelected;
 
   @override
   String toString() {
-    return 'TileModel(id: $id, x: $x, y: $y, width: $width, height: $height, color: $color)';
+    return 'TileModel(id: $id, x: $x, y: $y, width: $width, height: $height, color: $color, isSelected: $isSelected)';
   }
 
   @override
@@ -223,11 +242,14 @@ class _$TileModelImpl implements _TileModel {
             (identical(other.y, y) || other.y == y) &&
             (identical(other.width, width) || other.width == width) &&
             (identical(other.height, height) || other.height == height) &&
-            (identical(other.color, color) || other.color == color));
+            (identical(other.color, color) || other.color == color) &&
+            (identical(other.isSelected, isSelected) ||
+                other.isSelected == isSelected));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, x, y, width, height, color);
+  int get hashCode =>
+      Object.hash(runtimeType, id, x, y, width, height, color, isSelected);
 
   /// Create a copy of TileModel
   /// with the given fields replaced by the non-null parameter values.
@@ -246,6 +268,7 @@ abstract class _TileModel implements TileModel {
     required final double width,
     required final double height,
     required final Color color,
+    final bool isSelected,
   }) = _$TileModelImpl;
 
   @override
@@ -260,6 +283,8 @@ abstract class _TileModel implements TileModel {
   double get height;
   @override
   Color get color;
+  @override
+  bool get isSelected;
 
   /// Create a copy of TileModel
   /// with the given fields replaced by the non-null parameter values.

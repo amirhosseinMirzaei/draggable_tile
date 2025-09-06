@@ -1,69 +1,96 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../bloc/tile_bloc.dart';
+import '../../bloc/tile_event.dart';
 import '../../models/tile_model.dart';
 
-class DraggableTile extends StatefulWidget {
+class DraggableTile extends StatelessWidget {
   final TileModel tile;
-  final Function(TileModel) onUpdate;
-  final Function(TileModel) onBringToFront;
 
-  const DraggableTile({super.key, required this.tile, required this.onUpdate, required this.onBringToFront});
-
-  @override
-  State<DraggableTile> createState() => _DraggableTileState();
-}
-
-class _DraggableTileState extends State<DraggableTile> {
-  late double x, y, width, height;
-
-  @override
-  void initState() {
-    super.initState();
-    x = widget.tile.x;
-    y = widget.tile.y;
-    width = widget.tile.width;
-    height = widget.tile.height;
-  }
-
-  void _updateTile() {
-    widget.onUpdate(widget.tile.copyWith(x: x, y: y, width: width, height: height));
-  }
+  const DraggableTile({super.key, required this.tile});
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: x,
-      top: y,
+      left: tile.x,
+      top: tile.y,
       child: RepaintBoundary(
-        // for better performance
         child: GestureDetector(
+          // انتخاب / deselect
+          onTap: () {
+            context.read<TileBloc>().add(TileEvent.toggleTileSelection(tile.id));
+          },
+
+          // شروع Drag
           onPanStart: (_) {
-            widget.onBringToFront(widget.tile);
+            final bloc = context.read<TileBloc>();
+            final selectedTiles = bloc.state.tiles.where((t) => t.isSelected).toList();
+
+            if (tile.isSelected) {
+              for (var t in selectedTiles) {
+                bloc.add(TileEvent.bringToFront(t));
+              }
+            } else {
+              bloc.add(TileEvent.bringToFront(tile));
+            }
           },
+
+          // Drag کردن
           onPanUpdate: (details) {
-            setState(() {
-              x += details.delta.dx;
-              y += details.delta.dy;
-            });
-            _updateTile();
+            final bloc = context.read<TileBloc>();
+            final selectedTiles = bloc.state.tiles.where((t) => t.isSelected).toList();
+
+            if (tile.isSelected) {
+              for (var t in selectedTiles) {
+                final updated = t.copyWith(
+                  x: t.x + details.delta.dx,
+                  y: t.y + details.delta.dy,
+                );
+                bloc.add(TileEvent.updateTile(updated));
+              }
+            } else {
+              final updated = tile.copyWith(
+                x: tile.x + details.delta.dx,
+                y: tile.y + details.delta.dy,
+              );
+              bloc.add(TileEvent.updateTile(updated));
+            }
           },
+
           child: Stack(
             children: [
-              Container(width: width, height: height, decoration: BoxDecoration(color: widget.tile.color, borderRadius: BorderRadius.circular(12))),
+              // بدنه اصلی تایل
+              Container(
+                width: tile.width,
+                height: tile.height,
+                decoration: BoxDecoration(
+                  color: tile.isSelected ? Colors.orange : tile.color,
+                  borderRadius: BorderRadius.circular(12),
+                  border: tile.isSelected ? Border.all(color: Colors.yellow, width: 3) : null,
+                ),
+              ),
+
+              // دستگیره Resize
               Positioned(
                 right: 0,
                 bottom: 0,
                 child: GestureDetector(
                   onPanUpdate: (details) {
-                    setState(() {
-                      width += details.delta.dx;
-                      height += details.delta.dy;
-                      if (width < 60) width = 60;
-                      if (height < 60) height = 60;
-                    });
-                    _updateTile();
+                    final bloc = context.read<TileBloc>();
+                    final updated = tile.copyWith(
+                      width: (tile.width + details.delta.dx).clamp(60, double.infinity),
+                      height: (tile.height + details.delta.dy).clamp(60, double.infinity),
+                    );
+                    bloc.add(TileEvent.updateTile(updated));
                   },
-                  child: Container(width: 20, height: 20, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
                 ),
               ),
             ],
