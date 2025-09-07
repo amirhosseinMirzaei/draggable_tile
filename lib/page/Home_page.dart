@@ -41,10 +41,9 @@ class _HomePageState extends State<HomePage> {
                 final count = state.tiles.length;
                 if (count == 0) return const SizedBox();
 
-                // محاسبه تعداد ستون و ردیف نزدیک‌ترین مربع
+
                 int columns = sqrt(count).ceil();
                 int rows = (count / columns).ceil();
-
                 final tileWidth = constraints.maxWidth / columns;
                 final tileHeight = tileWidth * 9 / 16; // Aspect Ratio 16:9
 
@@ -57,7 +56,7 @@ class _HomePageState extends State<HomePage> {
 
                         return DraggableTile(
                           key: ValueKey(tile.id),
-                          tile: tile.copyWith(x: col * tileWidth, y: row * tileHeight, width: tileWidth, height: tileHeight),
+                          tile: tile,
                           gridSize: tileWidth,
                         );
                       }).toList(),
