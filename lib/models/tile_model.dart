@@ -12,6 +12,13 @@ class TileModel with _$TileModel {
     required double width,
     required double height,
     required Color color,
+    int? row,
+    int? col,
     @Default(false) bool isSelected,
   }) = _TileModel;
+
+  const TileModel._();
+
+  TileModel copyWithPosition({int? row, int? col}) =>
+      copyWith(row: row ?? this.row, col: col ?? this.col);
 }

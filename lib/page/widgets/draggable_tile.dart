@@ -1,53 +1,55 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../bloc/tile_bloc.dart';
 import '../../bloc/tile_event.dart';
 import '../../models/tile_model.dart';
 
 class DraggableTile extends StatelessWidget {
   final TileModel tile;
+  final double gridSize;
 
-  const DraggableTile({super.key, required this.tile});
+  const DraggableTile({super.key, required this.tile, this.gridSize = 120});
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
       left: tile.x,
       top: tile.y,
-      child: RepaintBoundary(
+      child: Listener(
+        onPointerDown: (_) {},
         child: GestureDetector(
-          onTap: () {
-            context.read<TileBloc>().add(TileEvent.toggleTileSelection(tile.id));
-          },
-
+          behavior: HitTestBehavior.translucent,
           onPanStart: (_) {
             final bloc = context.read<TileBloc>();
-            final selectedTiles = bloc.state.tiles.where((t) => t.isSelected).toList();
-
-            if (tile.isSelected) {
-              for (var t in selectedTiles) {
-                bloc.add(TileEvent.bringToFront(t));
-              }
-            } else {
-              bloc.add(TileEvent.bringToFront(tile));
-            }
+            bloc.add(TileEvent.bringToFront(tile));
           },
-
           onPanUpdate: (details) {
             final bloc = context.read<TileBloc>();
-            final selectedTiles = bloc.state.tiles.where((t) => t.isSelected).toList();
 
-            if (tile.isSelected) {
-              for (var t in selectedTiles) {
-                final updated = t.copyWith(x: t.x + details.delta.dx, y: t.y + details.delta.dy);
-                bloc.add(TileEvent.updateTile(updated));
-              }
-            } else {
-              final updated = tile.copyWith(x: tile.x + details.delta.dx, y: tile.y + details.delta.dy);
-              bloc.add(TileEvent.updateTile(updated));
-            }
+
+            final newWidth = (tile.width + details.delta.dx).clamp(60, 400);
+
+
+            final newHeight = newWidth * 9 / 16;
+
+            final updated = tile.copyWith(
+              width: newWidth.toDouble(),
+              height: newHeight,
+            );
+            bloc.add(TileEvent.updateTile(updated));
           },
 
+          onPanEnd: (_) {
+            final bloc = context.read<TileBloc>();
+            final snap = (double v) => (v / gridSize).round() * gridSize;
+            final updated = tile.copyWith(
+              x: snap(tile.x),
+              y: snap(tile.y),
+            );
+            bloc.add(TileEvent.updateTile(updated));
+          },
           child: Stack(
             children: [
               Container(
@@ -56,23 +58,41 @@ class DraggableTile extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: tile.color,
                   borderRadius: BorderRadius.circular(12),
-                  border: tile.isSelected ? Border.all(color: Colors.yellow, width: 3) : null,
+                  border: tile.isSelected
+                      ? Border.all(color: Colors.yellow, width: 3)
+                      : null,
                 ),
               ),
-
+              // کنترل تغییر سایز
               Positioned(
                 right: 0,
                 bottom: 0,
                 child: GestureDetector(
+
+                  behavior: HitTestBehavior.translucent,
                   onPanUpdate: (details) {
                     final bloc = context.read<TileBloc>();
-                    final updated = tile.copyWith(
-                      width: (tile.width + details.delta.dx).clamp(60, double.infinity),
-                      height: (tile.height + details.delta.dy).clamp(60, double.infinity),
-                    );
-                    bloc.add(TileEvent.updateTile(updated));
-                  },
-                  child: Container(width: 20, height: 20, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+                    final newWidth = (tile.width + details.delta.dx).clamp(60, 400);
+                    final newHeight = (tile.height + details.delta.dy).clamp(60, 400);
+
+
+                    final scaleX = newWidth / tile.width;
+                    final scaleY = newHeight / tile.height;
+
+                    bloc.add(TileEvent.scaleAllTiles(
+                      targetId: tile.id,
+                      scaleX: scaleX,
+                      scaleY: scaleY,
+                    ));                  },
+
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
                 ),
               ),
             ],
