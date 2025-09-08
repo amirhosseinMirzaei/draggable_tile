@@ -34,7 +34,7 @@ class _CameraGridPageState extends State<CameraGridPage> {
         child: ReorderableWrap(
           spacing: 8,
           runSpacing: 8,
-          needsLongPressDraggable: false,
+          needsLongPressDraggable: true,
           onReorder: (oldIndex, newIndex) {
             setState(() {
               final item = items.removeAt(oldIndex);
