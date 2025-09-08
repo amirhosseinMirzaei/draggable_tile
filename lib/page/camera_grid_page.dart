@@ -4,8 +4,6 @@ import 'package:reorderables/reorderables.dart';
 
 import '../models/tile_model.dart';
 
-
-
 class CameraGridPage extends StatefulWidget {
   const CameraGridPage({super.key});
 
@@ -25,10 +23,7 @@ class _CameraGridPageState extends State<CameraGridPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addItem,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: FloatingActionButton(onPressed: _addItem, child: const Icon(Icons.add)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8),
         child: ReorderableWrap(
@@ -43,60 +38,47 @@ class _CameraGridPageState extends State<CameraGridPage> {
           },
           children: List.generate(items.length, (i) {
             final item = items[i];
-            return SizedBox(
-              width: item.size.width,
-              height: item.size.height,
-              child: TransformableBox(
-                key: ValueKey(i),
-                rect: Rect.fromLTWH(0, 0, item.size.width, item.size.height),
-                clampingRect: Rect.fromLTWH(0, 0, 300, 300),
-                onChanged: (result, event) {
-                  setState(() {
-                    items[i] = items[i].copyWith(size: result.rect.size);
-                  });
-                },
-                contentBuilder: (context, rect, flip) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      width: rect.width,
-                      height: rect.height,
-                      decoration: BoxDecoration(
-                        color: Colors.blueGrey[700],
-                        border: Border.all(color: Colors.black26),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 4,
-                            offset: Offset(2, 2),
-                          ),
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Icon(Icons.videocam, color: Colors.white, size: 36),
-                          ),
-                          Positioned(
-                            top: 4,
-                            right: 4,
-                            child: Container(
-                              width: 12,
-                              height: 12,
-                              decoration: BoxDecoration(
-                                color: Colors.greenAccent,
-                                shape: BoxShape.circle,
-                              ),
+            return RepaintBoundary(
+              child: SizedBox(
+                width: item.size.width,
+                height: item.size.height,
+                child: TransformableBox(
+                  key: ValueKey(i),
+                  rect: Rect.fromLTWH(0, 0, item.size.width, item.size.height),
+                  clampingRect: Rect.fromLTWH(0, 0, 300, 300),
+                  onChanged: (result, event) {
+                    setState(() {
+                      items[i] = items[i].copyWith(size: result.rect.size);
+                    });
+                  },
+
+                  contentBuilder: (context, rect, flip) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        width: rect.width,
+                        height: rect.height,
+                        decoration: BoxDecoration(
+                          color: Colors.blueGrey[700],
+                          border: Border.all(color: Colors.black26),
+                          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(2, 2))],
+                        ),
+                        child: Stack(
+                          children: [
+                            Center(child: Icon(Icons.videocam, color: Colors.white, size: 36)),
+                            Positioned(
+                              top: 4,
+                              right: 4,
+                              child: Container(width: 12, height: 12, decoration: BoxDecoration(color: Colors.greenAccent, shape: BoxShape.circle)),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             );
-
           }),
         ),
       ),
