@@ -1,4 +1,4 @@
-import 'package:draggable_grid/page/Home_page.dart';
+import 'package:draggable_grid/page/camera_grid_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,11 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Custom Draggable Grid',
-      theme: ThemeData.dark(),
-      home: const HomePage(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, title: 'Custom Draggable Grid', theme: ThemeData.dark(), home: CameraGridPage());
   }
 }

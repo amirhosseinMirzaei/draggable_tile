@@ -17,15 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TileModel {
-  int get id => throw _privateConstructorUsedError;
-  double get x => throw _privateConstructorUsedError;
-  double get y => throw _privateConstructorUsedError;
-  double get width => throw _privateConstructorUsedError;
-  double get height => throw _privateConstructorUsedError;
-  Color get color => throw _privateConstructorUsedError;
-  int? get row => throw _privateConstructorUsedError;
-  int? get col => throw _privateConstructorUsedError;
-  bool get isSelected => throw _privateConstructorUsedError;
+  Size get size => throw _privateConstructorUsedError;
 
   /// Create a copy of TileModel
   /// with the given fields replaced by the non-null parameter values.
@@ -39,17 +31,7 @@ abstract class $TileModelCopyWith<$Res> {
   factory $TileModelCopyWith(TileModel value, $Res Function(TileModel) then) =
       _$TileModelCopyWithImpl<$Res, TileModel>;
   @useResult
-  $Res call({
-    int id,
-    double x,
-    double y,
-    double width,
-    double height,
-    Color color,
-    int? row,
-    int? col,
-    bool isSelected,
-  });
+  $Res call({Size size});
 }
 
 /// @nodoc
@@ -66,64 +48,14 @@ class _$TileModelCopyWithImpl<$Res, $Val extends TileModel>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? id = null,
-    Object? x = null,
-    Object? y = null,
-    Object? width = null,
-    Object? height = null,
-    Object? color = null,
-    Object? row = freezed,
-    Object? col = freezed,
-    Object? isSelected = null,
-  }) {
+  $Res call({Object? size = null}) {
     return _then(
       _value.copyWith(
-            id:
-                null == id
-                    ? _value.id
-                    : id // ignore: cast_nullable_to_non_nullable
-                        as int,
-            x:
-                null == x
-                    ? _value.x
-                    : x // ignore: cast_nullable_to_non_nullable
-                        as double,
-            y:
-                null == y
-                    ? _value.y
-                    : y // ignore: cast_nullable_to_non_nullable
-                        as double,
-            width:
-                null == width
-                    ? _value.width
-                    : width // ignore: cast_nullable_to_non_nullable
-                        as double,
-            height:
-                null == height
-                    ? _value.height
-                    : height // ignore: cast_nullable_to_non_nullable
-                        as double,
-            color:
-                null == color
-                    ? _value.color
-                    : color // ignore: cast_nullable_to_non_nullable
-                        as Color,
-            row:
-                freezed == row
-                    ? _value.row
-                    : row // ignore: cast_nullable_to_non_nullable
-                        as int?,
-            col:
-                freezed == col
-                    ? _value.col
-                    : col // ignore: cast_nullable_to_non_nullable
-                        as int?,
-            isSelected:
-                null == isSelected
-                    ? _value.isSelected
-                    : isSelected // ignore: cast_nullable_to_non_nullable
-                        as bool,
+            size:
+                null == size
+                    ? _value.size
+                    : size // ignore: cast_nullable_to_non_nullable
+                        as Size,
           )
           as $Val,
     );
@@ -139,17 +71,7 @@ abstract class _$$TileModelImplCopyWith<$Res>
   ) = __$$TileModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int id,
-    double x,
-    double y,
-    double width,
-    double height,
-    Color color,
-    int? row,
-    int? col,
-    bool isSelected,
-  });
+  $Res call({Size size});
 }
 
 /// @nodoc
@@ -165,64 +87,14 @@ class __$$TileModelImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? id = null,
-    Object? x = null,
-    Object? y = null,
-    Object? width = null,
-    Object? height = null,
-    Object? color = null,
-    Object? row = freezed,
-    Object? col = freezed,
-    Object? isSelected = null,
-  }) {
+  $Res call({Object? size = null}) {
     return _then(
       _$TileModelImpl(
-        id:
-            null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                    as int,
-        x:
-            null == x
-                ? _value.x
-                : x // ignore: cast_nullable_to_non_nullable
-                    as double,
-        y:
-            null == y
-                ? _value.y
-                : y // ignore: cast_nullable_to_non_nullable
-                    as double,
-        width:
-            null == width
-                ? _value.width
-                : width // ignore: cast_nullable_to_non_nullable
-                    as double,
-        height:
-            null == height
-                ? _value.height
-                : height // ignore: cast_nullable_to_non_nullable
-                    as double,
-        color:
-            null == color
-                ? _value.color
-                : color // ignore: cast_nullable_to_non_nullable
-                    as Color,
-        row:
-            freezed == row
-                ? _value.row
-                : row // ignore: cast_nullable_to_non_nullable
-                    as int?,
-        col:
-            freezed == col
-                ? _value.col
-                : col // ignore: cast_nullable_to_non_nullable
-                    as int?,
-        isSelected:
-            null == isSelected
-                ? _value.isSelected
-                : isSelected // ignore: cast_nullable_to_non_nullable
-                    as bool,
+        size:
+            null == size
+                ? _value.size
+                : size // ignore: cast_nullable_to_non_nullable
+                    as Size,
       ),
     );
   }
@@ -230,42 +102,15 @@ class __$$TileModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$TileModelImpl extends _TileModel {
-  const _$TileModelImpl({
-    required this.id,
-    required this.x,
-    required this.y,
-    required this.width,
-    required this.height,
-    required this.color,
-    this.row,
-    this.col,
-    this.isSelected = false,
-  }) : super._();
+class _$TileModelImpl implements _TileModel {
+  const _$TileModelImpl({required this.size});
 
   @override
-  final int id;
-  @override
-  final double x;
-  @override
-  final double y;
-  @override
-  final double width;
-  @override
-  final double height;
-  @override
-  final Color color;
-  @override
-  final int? row;
-  @override
-  final int? col;
-  @override
-  @JsonKey()
-  final bool isSelected;
+  final Size size;
 
   @override
   String toString() {
-    return 'TileModel(id: $id, x: $x, y: $y, width: $width, height: $height, color: $color, row: $row, col: $col, isSelected: $isSelected)';
+    return 'TileModel(size: $size)';
   }
 
   @override
@@ -273,31 +118,11 @@ class _$TileModelImpl extends _TileModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TileModelImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.x, x) || other.x == x) &&
-            (identical(other.y, y) || other.y == y) &&
-            (identical(other.width, width) || other.width == width) &&
-            (identical(other.height, height) || other.height == height) &&
-            (identical(other.color, color) || other.color == color) &&
-            (identical(other.row, row) || other.row == row) &&
-            (identical(other.col, col) || other.col == col) &&
-            (identical(other.isSelected, isSelected) ||
-                other.isSelected == isSelected));
+            (identical(other.size, size) || other.size == size));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    x,
-    y,
-    width,
-    height,
-    color,
-    row,
-    col,
-    isSelected,
-  );
+  int get hashCode => Object.hash(runtimeType, size);
 
   /// Create a copy of TileModel
   /// with the given fields replaced by the non-null parameter values.
@@ -308,38 +133,11 @@ class _$TileModelImpl extends _TileModel {
       __$$TileModelImplCopyWithImpl<_$TileModelImpl>(this, _$identity);
 }
 
-abstract class _TileModel extends TileModel {
-  const factory _TileModel({
-    required final int id,
-    required final double x,
-    required final double y,
-    required final double width,
-    required final double height,
-    required final Color color,
-    final int? row,
-    final int? col,
-    final bool isSelected,
-  }) = _$TileModelImpl;
-  const _TileModel._() : super._();
+abstract class _TileModel implements TileModel {
+  const factory _TileModel({required final Size size}) = _$TileModelImpl;
 
   @override
-  int get id;
-  @override
-  double get x;
-  @override
-  double get y;
-  @override
-  double get width;
-  @override
-  double get height;
-  @override
-  Color get color;
-  @override
-  int? get row;
-  @override
-  int? get col;
-  @override
-  bool get isSelected;
+  Size get size;
 
   /// Create a copy of TileModel
   /// with the given fields replaced by the non-null parameter values.

@@ -6,19 +6,6 @@ part 'tile_model.freezed.dart';
 @freezed
 class TileModel with _$TileModel {
   const factory TileModel({
-    required int id,
-    required double x,
-    required double y,
-    required double width,
-    required double height,
-    required Color color,
-    int? row,
-    int? col,
-    @Default(false) bool isSelected,
+    required Size size,
   }) = _TileModel;
-
-  const TileModel._();
-
-  TileModel copyWithPosition({int? row, int? col}) =>
-      copyWith(row: row ?? this.row, col: col ?? this.col);
 }
